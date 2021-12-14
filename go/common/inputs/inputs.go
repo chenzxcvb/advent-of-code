@@ -10,15 +10,11 @@ import (
 
 type CloseFn = func()
 
-func Scanner(year, day uint) (*bufio.Scanner, CloseFn) {
-	rootDir := ".."
-	if d, ok := os.LookupEnv("ADVENT_OF_CODE_ROOT"); ok {
-		rootDir = d
-	} else {
-		wd, _ := os.Getwd()
-		rootDir = filepath.Join(wd, "../")
-	}
-	df := filepath.Join(rootDir, "inputs", fmt.Sprint(year), fmt.Sprintf("%d.txt", day))
+func Scanner(day uint) (*bufio.Scanner, CloseFn) {
+	basepath, _ := os.Getwd()
+	fmt.Sprintf("root path %s", basepath)
+
+	df := filepath.Join(basepath, "../../inputs", fmt.Sprintf("%d.txt", day))
 	f, err := os.Open(df)
 	if err != nil {
 		panic(fmt.Sprintf("Error reading lines from input file %s: %v", df, err))
@@ -31,9 +27,9 @@ func Scanner(year, day uint) (*bufio.Scanner, CloseFn) {
 	}
 }
 
-func LinesAsString(year, day uint) []string {
+func LinesAsString(day uint) []string {
 	lines := make([]string, 0)
-	s, close := Scanner(year, day)
+	s, close := Scanner(day)
 	defer close()
 	for s.Scan() {
 		lines = append(lines, s.Text())
@@ -42,8 +38,8 @@ func LinesAsString(year, day uint) []string {
 	return lines
 }
 
-func LinesAsInt(year, day uint) []int {
-	lines := LinesAsString(year, day)
+func LinesAsInt(day uint) []int {
+	lines := LinesAsString(day)
 	intLs := make([]int, len(lines))
 	for i, s := range lines {
 		if val, err := strconv.ParseInt(s, 10, 64); err != nil {

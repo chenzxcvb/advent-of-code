@@ -16,7 +16,7 @@ type day01 struct {
 }
 
 func (d *day01) Open() {
-	d.ms = inputs.LinesAsInt(2021, 1)
+	d.ms = inputs.LinesAsInt(1)
 }
 
 func (d *day01) Close() {
