@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/chenzxcvb/advend-of-cod/go/day01"
+	"github.com/chenzxcvb/advent-of-code/go/common/runner"
+	"github.com/chenzxcvb/advent-of-code/go/day01"
 )
 
 func main() {
 	days := []runner.Day{
-		day01.New()
+		day01.New(),
 	}
 
 	runner.Run(days)
