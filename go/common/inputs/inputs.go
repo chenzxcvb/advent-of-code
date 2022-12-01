@@ -51,4 +51,25 @@ func LinesAsInt(day uint) []int {
 	return intLs
 }
 
-// func LinesAsSlice(day uint) []int
+func LinesAsIntChunk(day uint) [][]int {
+	lines := LinesAsString(day)
+	inputs := make([][]int, 0)
+	row := make([]int, 0)
+
+	for i, l := range lines {
+		if l != "" {
+			val, _ := strconv.Atoi(l)
+			row = append(row, val)
+		} else {
+			inputs = append(inputs, row)
+			row = nil
+			continue
+		}
+
+		if i == len(lines)-1 && len(row) != 0 {
+			inputs = append(inputs, row)
+		}
+	}
+
+	return inputs
+}
