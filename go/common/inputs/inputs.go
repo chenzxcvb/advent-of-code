@@ -14,7 +14,7 @@ func Scanner(day uint) (*bufio.Scanner, CloseFn) {
 	basepath, _ := os.Getwd()
 	fmt.Sprintf("root path %s", basepath)
 
-	df := filepath.Join(basepath, "../../inputs", fmt.Sprintf("%d.txt", day))
+	df := filepath.Join(basepath, "../inputs", fmt.Sprintf("%d.txt", day))
 	f, err := os.Open(df)
 	if err != nil {
 		panic(fmt.Sprintf("Error reading lines from input file %s: %v", df, err))
@@ -50,3 +50,5 @@ func LinesAsInt(day uint) []int {
 	}
 	return intLs
 }
+
+// func LinesAsSlice(day uint) []int

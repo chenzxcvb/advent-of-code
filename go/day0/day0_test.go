@@ -1,8 +1,8 @@
-package day01
+package day0
 
 import "testing"
 
-func TestDay01_Part1(t *testing.T) {
+func TestDay0_Part1(t *testing.T) {
 	d := New()
 	d.Open()
 	answer := d.Part1()
@@ -12,7 +12,7 @@ func TestDay01_Part1(t *testing.T) {
 	d.Close()
 }
 
-func TestDay01_Part2(t *testing.T) {
+func TestDay0_Part2(t *testing.T) {
 	d := New()
 	d.Open()
 	answer := d.Part2()
@@ -22,7 +22,7 @@ func TestDay01_Part2(t *testing.T) {
 	d.Close()
 }
 
-func BenchmarkDay01_Part1(b *testing.B) {
+func BenchmarkDay0_Part1(b *testing.B) {
 	d := New()
 	d.Open()
 	b.ResetTimer()
@@ -31,7 +31,7 @@ func BenchmarkDay01_Part1(b *testing.B) {
 	}
 }
 
-func BenchmarkDay01_Part2(b *testing.B) {
+func BenchmarkDay0_Part2(b *testing.B) {
 	d := New()
 	d.Open()
 	b.ResetTimer()

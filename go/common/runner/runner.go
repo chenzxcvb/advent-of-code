@@ -18,7 +18,7 @@ func Run(days []Day) {
 
 	for i, d := range days {
 
-		fmt.Printf("Loading Day %d....", i+1)
+		fmt.Printf("Loading Day %d....", i)
 		startLoad := time.Now()
 		d.Open()
 		fmt.Printf("\t  loaded in %15s \n", time.Since(startLoad).String())
