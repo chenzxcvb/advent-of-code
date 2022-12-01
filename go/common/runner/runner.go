@@ -29,11 +29,11 @@ func Run(days []Day) {
 		fmt.Printf(" solved in %15s", time.Since(startP1).String())
 		fmt.Printf("%20s\n", res)
 
-		// fmt.Printf("\tSolving part 2...")
-		// startP2 := time.Now()
-		// res = d.Part2()
-		// fmt.Printf(" solved in %15s", time.Since(startP2).String())
-		// fmt.Printf("%20s\n\n", res)
+		fmt.Printf("\tSolving part 2...")
+		startP2 := time.Now()
+		res = d.Part2()
+		fmt.Printf(" solved in %15s", time.Since(startP2).String())
+		fmt.Printf("%20s\n\n", res)
 
 		d.Close()
 	}

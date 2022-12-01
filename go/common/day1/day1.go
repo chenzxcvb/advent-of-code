@@ -25,17 +25,40 @@ func (d *day1) Close() {
 func (d *day1) Part1() string {
 	result := 0
 	for _, r := range d.given {
-		total := 0
-		for _, c := range r {
-			total += c
-		}
+		total := sum(r)
 		result = max(result, total)
 	}
 	return fmt.Sprint(result)
 }
 
 func (d *day1) Part2() string {
-	return ""
+	first := 0
+	second := 0
+	third := 0
+
+	for _, r := range d.given {
+		total := sum(r)
+		if total > first {
+			third = second
+			second = first
+			first = total
+		} else if total > second {
+			third = second
+			second = total
+		} else if total > third {
+			third = total
+		}
+	}
+
+	return fmt.Sprint(sum([]int{first, second, third}))
+}
+
+func sum(arr []int) int {
+	total := 0
+	for _, c := range arr {
+		total += c
+	}
+	return total
 }
 
 func max(x, y int) int {
