@@ -16,9 +16,7 @@ func New() runner.Day {
 	return &day2{}
 }
 func (d *day2) Open() {
-	lines := inputs.LinesAsString(2)
-	d.given = lines
-	fmt.Println(d.given)
+	d.given = inputs.LinesAsString(2)
 }
 
 func (d *day2) Close() {
@@ -26,14 +24,13 @@ func (d *day2) Close() {
 }
 
 func (d *day2) Part1() string {
-	result := []int{}
+	result := 0
 	for _, l := range d.given {
 		players := strings.Fields(l)
-		fmt.Println(players)
-		_, p2 := match(players[0], players[1])
-		result = append(result, p2)
+		score := match(players[0], players[1])
+		result += score
 	}
-	return fmt.Sprint(sum(result))
+	return fmt.Sprint(result)
 }
 
 func (d *day2) Part2() string {
@@ -41,9 +38,8 @@ func (d *day2) Part2() string {
 	return ""
 }
 
-func match(op, me string) (int, int) {
-	r1 := 0
-	r2 := 0
+func match(op, me string) int {
+	result := 0
 
 	points1 := map[string]int{
 		"A": 1,
@@ -58,27 +54,14 @@ func match(op, me string) (int, int) {
 	}
 
 	s1 := points1[op]
-	r1 += s1
-
 	s2 := points2[me]
-	r2 += s2
+	result += s2
 
 	if s1 == s2 {
-		r1 += 3
-		r2 += 3
+		result += 3
 	} else if s1 < s2 {
-		r2 += 6
-	} else if s1 > s2 {
-		r1 += 6
+		result += 6
 	}
 
-	return r1, r2
-}
-
-func sum(arr []int) int {
-	total := 0
-	for _, c := range arr {
-		total += c
-	}
-	return total
+	return result
 }
