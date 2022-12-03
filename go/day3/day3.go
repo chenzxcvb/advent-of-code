@@ -27,7 +27,7 @@ func (d *day3) Close() {
 func (d *day3) Part1() string {
 	uniformity := make([]string, 0)
 	for _, s := range d.given {
-		arr := strings.Split(s, "")
+		arr := stringToArray(s)
 		size := len(arr)
 		l := arr[0 : size/2]
 		r := arr[size/2 : size]
@@ -45,17 +45,34 @@ func (d *day3) Part1() string {
 		uniformity = append(uniformity, temp.Items()...)
 	}
 
-	score := 0
-	for _, re := range uniformity {
-		score += d.score(re)
-	}
-
-	return fmt.Sprint(score)
+	return fmt.Sprint(d.totalScore(uniformity))
 }
 
 func (d *day3) Part2() string {
 
-	return fmt.Sprint(0)
+	badges := make([]string, 0)
+
+	for n, s := range d.given {
+		badge := types.NewStringSet()
+
+		if n%3 == 0 {
+			elf := stringToArray(s)
+			next := types.NewStringSetFromList(stringToArray(d.given[n+1]))
+			last := types.NewStringSetFromList(stringToArray(d.given[n+2]))
+			for _, el := range elf {
+				if badge.Contains(el) {
+					continue
+				}
+				if next.Contains(el) && last.Contains(el) {
+					badge.Add(el)
+				}
+			}
+		}
+
+		badges = append(badges, badge.Items()...)
+	}
+
+	return fmt.Sprint(d.totalScore(badges))
 }
 
 func (d *day3) found(el string, r []string) bool {
@@ -67,10 +84,18 @@ func (d *day3) found(el string, r []string) bool {
 	return false
 }
 
+func (d *day3) totalScore(uniformity []string) int {
+	score := 0
+	for _, re := range uniformity {
+		score += d.score(re)
+	}
+	return score
+}
+
 func (d *day3) score(letter string) int {
 	letters := "a b c d e f g h i j k l m n o p q r s t u v w x y z"
-	c := strings.Split(letters, " ")
-	for s, v := range c {
+	l := strings.Split(letters, " ")
+	for s, v := range l {
 		if letter == v {
 			return s + 1
 		}
@@ -79,4 +104,8 @@ func (d *day3) score(letter string) int {
 		}
 	}
 	return 0
+}
+
+func stringToArray(str string) []string {
+	return strings.Split(str, "")
 }
