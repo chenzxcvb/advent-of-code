@@ -23,45 +23,66 @@ func (d *day2) Close() {
 	d.given = nil
 }
 
+var (
+	she = map[string]string{
+		"A": "ROCK",
+		"B": "PAPER",
+		"C": "SCISSORS",
+	}
+	me = map[string]string{
+		"X": "ROCK",
+		"Y": "PAPER",
+		"Z": "SCISSORS",
+	}
+	loseTieWin = map[string][]string{
+		"ROCK":     {"SCISSORS", "ROCK", "PAPER"},
+		"PAPER":    {"ROCK", "PAPER", "SCISSORS"},
+		"SCISSORS": {"PAPER", "SCISSORS", "ROCK"},
+	}
+	score = map[string]int{
+		"ROCK":     1,
+		"PAPER":    2,
+		"SCISSORS": 3,
+	}
+)
+
 func (d *day2) Part1() string {
 	result := 0
-	for _, l := range d.given {
-		players := strings.Fields(l)
-		score := match(players[0], players[1])
-		result += score
+	for _, line := range d.given {
+		ro := strings.Split(line, " ")
+		l := she[ro[0]]
+		r := me[ro[1]]
+		result = result + score[r] + match(l, r)
+
 	}
 	return fmt.Sprint(result)
 }
 
 func (d *day2) Part2() string {
+	rule := map[string]int{
+		"X": 0,
+		"Y": 1,
+		"Z": 2,
+	}
 
-	return ""
+	result := 0
+	for _, line := range d.given {
+		ro := strings.Split(line, " ")
+		her := she[ro[0]]
+		outcome := rule[ro[1]] // "X" - 0
+
+		// her: "ROCK", me:?, me ${outcome}
+		result = result + outcome*3 + score[loseTieWin[her][outcome]]
+	}
+
+	return fmt.Sprint(result)
 }
 
-func match(op, me string) int {
-	result := 0
-
-	points1 := map[string]int{
-		"A": 1,
-		"B": 2,
-		"C": 3,
+func match(her, me string) int {
+	for n, s := range loseTieWin[her] {
+		if me == s {
+			return n * 3
+		}
 	}
-
-	points2 := map[string]int{
-		"X": 1,
-		"Y": 2,
-		"Z": 3,
-	}
-
-	s1 := points1[op]
-	s2 := points2[me]
-	result += s2
-
-	if s1 == s2 {
-		result += 3
-	} else if s1 < s2 {
-		result += 6
-	}
-
-	return result
+	return 0
 }

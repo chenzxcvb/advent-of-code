@@ -16,9 +16,9 @@ type Day interface {
 func Run(days []Day) {
 	allStart := time.Now()
 
-	for i, d := range days {
+	for _, d := range days {
 
-		fmt.Printf("Loading Day %d....", i)
+		fmt.Printf("Loading input....")
 		startLoad := time.Now()
 		d.Open()
 		fmt.Printf("\t  loaded in %15s \n", time.Since(startLoad).String())
