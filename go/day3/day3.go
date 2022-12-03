@@ -27,18 +27,18 @@ func (d *day3) Close() {
 func (d *day3) Part1() string {
 	uniformity := make([]string, 0)
 	for _, s := range d.given {
-		arr := stringToArray(s)
-		size := len(arr)
-		l := arr[0 : size/2]
-		r := arr[size/2 : size]
-		rSet := types.NewStringSetFromList(r)
+		elf := stringToArray(s)
+		size := len(elf)
+		left := elf[0 : size/2]
+		right := elf[size/2 : size]
+		rightSet := types.NewStringSetFromList(right)
 
 		temp := types.NewStringSet()
-		for _, el := range l {
+		for _, el := range left {
 			if temp.Contains(el) {
 				continue
 			}
-			if rSet.Contains(el) {
+			if rightSet.Contains(el) {
 				temp.Add(el)
 			}
 		}
@@ -84,9 +84,8 @@ func (d *day3) totalScore(uniformity []string) int {
 }
 
 func (d *day3) score(letter string) int {
-	letters := "a b c d e f g h i j k l m n o p q r s t u v w x y z"
-	l := strings.Split(letters, " ")
-	for s, v := range l {
+	letters := stringToArray("abcdefghijklmnopqrstuvwxyz")
+	for s, v := range letters {
 		if letter == v {
 			return s + 1
 		}
