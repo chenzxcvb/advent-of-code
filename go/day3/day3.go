@@ -31,14 +31,14 @@ func (d *day3) Part1() string {
 		size := len(arr)
 		l := arr[0 : size/2]
 		r := arr[size/2 : size]
+		rSet := types.NewStringSetFromList(r)
 
 		temp := types.NewStringSet()
 		for _, el := range l {
 			if temp.Contains(el) {
 				continue
 			}
-			found := d.found(el, r)
-			if found {
+			if rSet.Contains(el) {
 				temp.Add(el)
 			}
 		}
@@ -73,15 +73,6 @@ func (d *day3) Part2() string {
 	}
 
 	return fmt.Sprint(d.totalScore(badges))
-}
-
-func (d *day3) found(el string, r []string) bool {
-	for _, er := range r {
-		if el == er {
-			return true
-		}
-	}
-	return false
 }
 
 func (d *day3) totalScore(uniformity []string) int {
