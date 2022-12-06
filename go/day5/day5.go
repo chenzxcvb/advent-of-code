@@ -3,6 +3,7 @@ package day5
 import (
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/chenzxcvb/advent-of-code/go/common/inputs"
 	"github.com/chenzxcvb/advent-of-code/go/common/runner"
@@ -76,37 +77,51 @@ func (d *day5) Close() {
 }
 
 func (d *day5) Part1() string {
+	stacks := make([][]string, len(d.stacks))
+	copy(stacks, d.stacks)
 
 	for _, m := range d.moves {
 		count := m.count
 		for count > 0 {
-			crate, stack := pop(d.stacks[m.from])
-			d.stacks[m.from] = stack
-			d.stacks[m.to] = append(d.stacks[m.to], crate)
+			crate, stack := pop(stacks[m.from])
+			stacks[m.from] = stack
+			stacks[m.to] = append(stacks[m.to], crate)
 			count--
 		}
 	}
 
-	output := make([]string, 0)
-	for _, st := range d.stacks {
-		output = append(output, st[len(st)-1])
-	}
-
-	// fmt.Println(d.stacks)
-	return fmt.Sprint(output)
+	output := d.tops(stacks)
+	return fmt.Sprint(strings.Join(output, ""))
 }
 
 func (d *day5) Part2() string {
+	stacks := make([][]string, len(d.stacks))
+	copy(stacks, d.stacks)
 
-	return fmt.Sprint(0)
+	for _, m := range d.moves {
+		crates, fromStack := popMany(stacks[m.from], m.count)
+		stacks[m.from] = fromStack
+		stacks[m.to] = append(stacks[m.to], crates...)
+	}
+
+	output := d.tops(stacks)
+	return fmt.Sprint(strings.Join(output, ""))
 }
 
-func shift(s []string) (string, []string) {
-	l := len(s)
-	if l == 0 {
-		return "", s
+func (d *day5) tops(stacks [][]string) []string {
+	output := make([]string, 0)
+	for _, st := range stacks {
+		output = append(output, st[len(st)-1])
 	}
-	return s[0], s[1:]
+	return output
+}
+
+func popMany(s []string, count int) ([]string, []string) {
+	l := len(s)
+	if l == 0 || count > l {
+		return nil, s
+	}
+	return s[l-count : l], s[0 : l-count]
 }
 
 func pop(s []string) (string, []string) {
@@ -115,6 +130,14 @@ func pop(s []string) (string, []string) {
 		return "", s
 	}
 	return s[l-1], s[:l-1]
+}
+
+func shift(s []string) (string, []string) {
+	l := len(s)
+	if l == 0 {
+		return "", s
+	}
+	return s[0], s[1:]
 }
 
 func reverseSlice[T comparable](s []T) {
